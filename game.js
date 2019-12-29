@@ -33,7 +33,7 @@ let previous = date.getTime();
 let now = date.getTime();
 let delta = now - previous;
 
-const DelayBetween = 500;
+const DelayBetween = 250;
 const ShowTime = 1000;
 let currentDelayBetween = 0;
 let currentShowTime = 0;
@@ -182,8 +182,12 @@ function draw() {
                     gameSequence.push(getRndInteger(1, 4));
                 }
 
-                gameSequenceIndex++;
-                showingSquare = true;
+                currentDelayBetween += delta;
+                if (currentDelayBetween >= DelayBetween) {
+                    currentDelayBetween = 0;
+                    gameSequenceIndex++;
+                    showingSquare = true;
+                }
             }
         } else {
             // waiting for user input
