@@ -191,7 +191,9 @@ function draw() {
         } else {
             // waiting for user input
         }
-    } else if (gameOver) {
+    }
+    
+    if (gameOver) {
         highlightGreen = highlightRed = highlightBlue = highlightYellow = true;
     }
 
@@ -200,11 +202,17 @@ function draw() {
     drawBlue();
     drawYellow();
 
+    if (!gameStarted) {
+        context.fillStyle = 'rgb(0, 0, 0, 1.0)';
+        context.font = "30px Arial";
+        context.fillText("Click anywhere to start the game", -200, -(height / 3));
+    }
+
     // draw the game over text on top of the squares
     if (gameOver) {
         context.fillStyle = 'rgb(0, 0, 0, 1.0)';
         context.font = "50px Arial";
-        context.fillText("Game over! Score: " + (gameSequence.length - 1), -150, 0);
+        context.fillText("Game over! Score: " + (gameSequence.length - 1), -250, 0);
     }
 
     requestAnimationFrame(draw);
