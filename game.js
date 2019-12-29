@@ -69,6 +69,7 @@ document.onmousedown = function (e) {
         gameOver = false;
         gameSequenceIndex = -1;
         showingSequence = true;
+        gameStarted = true;
     } else if (gameStarted) {
         // game is underway but we're not showing the sequence, check they have picked the correct square
 
@@ -98,6 +99,7 @@ document.onmousedown = function (e) {
             }
         } else {
             gameOver = true;
+            gameStarted = false;
         }
 
     } else {
@@ -149,10 +151,7 @@ function draw() {
     clearHighlights();
 
     if (gameStarted) {
-        if (gameOver) {
-            highlightGreen = highlightRed = highlightBlue = highlightYellow = true;
-            // should also print out the score, ie the number of i guess successful squares, so the current total count - 1
-        } else if (showingSequence) {
+        if (showingSequence) {
             if (showingSquare) {
                 currentShowTime += delta;
                 if (currentShowTime >= ShowTime) {
@@ -177,7 +176,7 @@ function draw() {
                     }
                 }
             } else { // some small setup before we show a sequence BUT also increments the current square
-                // could have a delay between showing squares here
+
                 if (gameSequence.length < totalSequenceCount) {
                     gameSequence.push(getRndInteger(1, 4));
                 }
@@ -192,12 +191,21 @@ function draw() {
         } else {
             // waiting for user input
         }
+    } else if (gameOver) {
+        highlightGreen = highlightRed = highlightBlue = highlightYellow = true;
     }
 
     drawGreen();
     drawRed();
     drawBlue();
     drawYellow();
+
+    // draw the game over text on top of the squares
+    if (gameOver) {
+        context.fillStyle = 'rgb(0, 0, 0, 1.0)';
+        context.font = "50px Arial";
+        context.fillText("Game over! Score: " + (gameSequence.length - 1), -150, 0);
+    }
 
     requestAnimationFrame(draw);
 }
