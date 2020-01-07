@@ -44,6 +44,7 @@ let gameSequenceIndex = -1; // could be used to capture both 'showing' and 'play
 let gameSequence = [];
 let totalSequenceCount = 1; // so number of squares to show in the sequence
 let gameOver = false;
+let playingAudio = false;
 
 document.onmousemove = function (e) {
     mouseX = (window.Event) ? e.pageX : e.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
@@ -81,10 +82,22 @@ document.onmousedown = function (e) {
         let currentSquare = gameSequence[gameSequenceIndex];
         let pickedCorrectSquare = false;
         switch (currentSquare) {
-            case 1: pickedCorrectSquare = mouseOverGreen; break;
-            case 2: pickedCorrectSquare = mouseOverRed; break;
-            case 3: pickedCorrectSquare = mouseOverBlue; break;
-            case 4: pickedCorrectSquare = mouseOverYellow; break;
+            case 1:
+                pickedCorrectSquare = mouseOverGreen;
+                (new Audio('green.mp3')).play();
+                break;
+            case 2:
+                pickedCorrectSquare = mouseOverRed;
+                (new Audio('red.mp3')).play();
+                break;
+            case 3:
+                pickedCorrectSquare = mouseOverBlue;
+                (new Audio('blue.mp3')).play();
+                break;
+            case 4:
+                pickedCorrectSquare = mouseOverYellow;
+                (new Audio('yellow.mp3')).play();
+                break;
 
             default: break;
         }
@@ -157,6 +170,7 @@ function draw() {
                 if (currentShowTime >= ShowTime) {
                     showingSquare = false;
                     currentShowTime = 0;
+                    playingAudio = false;
 
                     // shown the entire sequence? if so stop showing it then wait for user to play
                     if (gameSequenceIndex + 1 >= gameSequence.length) {
@@ -167,10 +181,34 @@ function draw() {
                 } else {
                     let currentSquare = gameSequence[gameSequenceIndex];
                     switch (currentSquare) {
-                        case 1: highlightGreen = true; break;
-                        case 2: highlightRed = true; break;
-                        case 3: highlightBlue = true; break;
-                        case 4: highlightYellow = true; break;
+                        case 1:
+                            highlightGreen = true;
+                            if (!playingAudio) {
+                                playingAudio = true;
+                                (new Audio('green.mp3')).play();
+                            }
+                            break;
+                        case 2:
+                            highlightRed = true;
+                            if (!playingAudio) {
+                                playingAudio = true;
+                                (new Audio('red.mp3')).play();
+                            }
+                            break;
+                        case 3:
+                            highlightBlue = true;
+                            if (!playingAudio) {
+                                playingAudio = true;
+                                (new Audio('blue.mp3')).play();
+                            }
+                            break;
+                        case 4:
+                            highlightYellow = true;
+                            if (!playingAudio) {
+                                playingAudio = true;
+                                (new Audio('yellow.mp3')).play();
+                            }
+                            break;
 
                         default: break;
                     }
