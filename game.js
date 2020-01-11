@@ -38,6 +38,9 @@ const ShowTime = 1000;
 let currentDelayBetween = 0;
 let currentShowTime = 0;
 
+const DelayBeforeStartingSequence = 500;
+let currentDelayBeforeStartingSequence = 0;
+
 let showingSquare = false;
 let showingSequence = false;
 let gameSequenceIndex = -1; // could be used to capture both 'showing' and 'player' sequence
@@ -84,19 +87,27 @@ document.onmousedown = function (e) {
         switch (currentSquare) {
             case 1:
                 pickedCorrectSquare = mouseOverGreen;
-                (new Audio('green.mp3')).play();
+                if (pickedCorrectSquare) {
+                    (new Audio('green.mp3')).play();
+                }
                 break;
             case 2:
                 pickedCorrectSquare = mouseOverRed;
-                (new Audio('red.mp3')).play();
+                if (pickedCorrectSquare) {
+                    (new Audio('red.mp3')).play();
+                }
                 break;
             case 3:
                 pickedCorrectSquare = mouseOverBlue;
-                (new Audio('blue.mp3')).play();
+                if (pickedCorrectSquare) {
+                    (new Audio('blue.mp3')).play();
+                }
                 break;
             case 4:
                 pickedCorrectSquare = mouseOverYellow;
-                (new Audio('yellow.mp3')).play();
+                if (pickedCorrectSquare) {
+                    (new Audio('yellow.mp3')).play();
+                }
                 break;
 
             default: break;
@@ -109,6 +120,7 @@ document.onmousedown = function (e) {
                 totalSequenceCount++;
                 showingSequence = true;
                 gameSequenceIndex = -1;
+                currentDelayBeforeStartingSequence = 0;
             }
         } else {
             gameOver = true;
@@ -165,7 +177,9 @@ function draw() {
 
     if (gameStarted) {
         if (showingSequence) {
-            if (showingSquare) {
+            if (currentDelayBeforeStartingSequence < DelayBeforeStartingSequence) {
+                currentDelayBeforeStartingSequence += delta;
+            } else if (showingSquare) {
                 currentShowTime += delta;
                 if (currentShowTime >= ShowTime) {
                     showingSquare = false;
@@ -230,7 +244,7 @@ function draw() {
             // waiting for user input
         }
     }
-    
+
     if (gameOver) {
         highlightGreen = highlightRed = highlightBlue = highlightYellow = true;
     }
