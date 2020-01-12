@@ -258,13 +258,14 @@ function draw() {
         context.fillStyle = 'rgb(0, 0, 0, 1.0)';
         context.font = "30px Arial";
         context.fillText("Click anywhere to start the game", -200, -(height / 3));
-    }
+    } 
 
-    // draw the game over text on top of the squares
-    if (gameOver) {
+    if (gameSequence.length > 0) {
         context.fillStyle = 'rgb(0, 0, 0, 1.0)';
-        context.font = "50px Arial";
-        context.fillText("Game over! Score: " + (gameSequence.length - 1), -250, 0);
+        context.font = "30px Arial";
+        var score = gameSequence.length == 0 ? 0 : gameSequence.length - 1;
+        var gameOverText = gameOver ? ". Game over!" : "";
+        context.fillText("Score: " + score + gameOverText, -squareLength, -squareLength - 20);
     }
 
     requestAnimationFrame(draw);
