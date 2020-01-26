@@ -14,6 +14,10 @@ let squareLength = width > height ? height * 0.45 : width * 0.45;
 let buffer = width > height ? height * 0.01 : width * 0.01;
 let squareLengthBuffer = buffer + squareLength;
 
+var textScale = squareLength / 434.7; // magic number is calculated from 1080 res monitor browser window
+var textSize = textScale * 30;
+var textOffset = textScale * 20;
+
 let mouseX;
 let mouseY;
 let mouseOverGreen = false;
@@ -256,16 +260,16 @@ function draw() {
 
     if (!gameStarted) {
         context.fillStyle = 'rgb(0, 0, 0, 1.0)';
-        context.font = "30px Arial";
-        context.fillText("Click anywhere to start the game", -200, -(height / 3));
+        context.font = textSize + "px Arial";
+        context.fillText("Click anywhere to start the game", -(textOffset * 10), -(height / 3));
     } 
 
     if (gameSequence.length > 0) {
         context.fillStyle = 'rgb(0, 0, 0, 1.0)';
-        context.font = "30px Arial";
+        context.font = textSize + "px Arial";
         var score = gameSequence.length == 0 ? 0 : gameSequence.length - 1;
         var gameOverText = gameOver ? ". Game over!" : "";
-        context.fillText("Score: " + score + gameOverText, -squareLength, -squareLength - 20);
+        context.fillText("Score: " + score + gameOverText, -squareLength, -squareLength - textOffset);
     }
 
     requestAnimationFrame(draw);
